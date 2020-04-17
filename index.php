@@ -1,13 +1,13 @@
 <?php
 
-$_time_core = filemtime("../code/core-latest.js");
-$_time_lists = filemtime("../code/lists-latest.js");
-$_time_random = filemtime("../code/random-latest.js");
-$_time_statistics = filemtime("../code/statistics-latest.js");
-$_time_dom = filemtime("../code/dom-latest.js");
-$_time_js = filemtime("../code/js-latest.js");
-$_time_draw = filemtime("../utils/draw-derivation-trees/draw-derivation-trees.js");
-
+// $_time_core = filemtime("../code/core-latest.js");
+// $_time_lists = filemtime("../code/lists-latest.js");
+// $_time_random = filemtime("../code/random-latest.js");
+// $_time_statistics = filemtime("../code/statistics-latest.js");
+// $_time_dom = filemtime("../code/dom-latest.js");
+// $_time_js = filemtime("../code/js-latest.js");
+$_time_draw = filemtime("code/draw-derivation-trees/draw-derivation-trees.js");
+$_time_prolog = filemtime("code/tau-prolog.js");
 function genid() {
 	$letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	$len = strlen($letters);
@@ -64,7 +64,7 @@ if( isset($_GET["id"]) ) {
 <!DOCTYPE html>
 <html lang="en" onClick="hide_dialogs();">
 	<head>
-		<title><?php if( $title != "") echo $title . " - "; ?>Tau Prolog Sandbox</title>
+		<title><?php if( $title != "") echo $title . " - "; ?>Tugas Besar Pemrograman Deklaratif</title>
 		<meta name="description" content="<?php echo $description; ?>" />
 		<meta name="author" content="José Antonio Riaza Valverde" />
 		<meta name="keywords" content="Prolog, JavaScript, Interpreter, Logic, Programming">
@@ -74,14 +74,15 @@ if( isset($_GET["id"]) ) {
 		<link href="/content/img/favicon.ico" type="image/x-icon" rel="icon" />
 		<link rel="StyleSheet" href="main.css" type="text/css" media="ALL" />
 		<!-- Tau Prolog modules -->
-		<script type="text/javascript" src="/code/core-latest.js?update=<?php echo $_time_core; ?>"></script>
+		<!-- <script type="text/javascript" src="/code/core-latest.js?update=<?php echo $_time_core; ?>"></script>
 		<script type="text/javascript" src="/code/lists-latest.js?update=<?php echo $_time_lists; ?>"></script>
 		<script type="text/javascript" src="/code/random-latest.js?update=<?php echo $_time_random; ?>"></script>
 		<script type="text/javascript" src="/code/statistics-latest.js?update=<?php echo $_time_statistics; ?>"></script>
 		<script type="text/javascript" src="/code/dom-latest.js?update=<?php echo $_time_dom; ?>"></script>
-		<script type="text/javascript" src="/code/js-latest.js?update=<?php echo $_js_statistics; ?>"></script>
+		<script type="text/javascript" src="/code/js-latest.js?update=<?php echo $_js_statistics; ?>"></script> -->
+		<script type="text/javascript" src="code/tau-prolog.js?update=<?php echo $_time_prolog; ?>"></script>
 		<!-- Tau Prolog utils -->
-		<script type="text/javascript" src="/utils/draw-derivation-trees/draw-derivation-trees.js?update=<?php echo $_time_draw; ?>"></script>
+		<script type="text/javascript" src="code/draw-derivation-trees/draw-derivation-trees.js?update=<?php echo $_time_draw; ?>"></script>
 		<!-- Codemirror -->
 		<script src="codemirror/lib/codemirror.js"></script>
 		<link rel="stylesheet" href="codemirror/lib/codemirror.css">
@@ -124,7 +125,7 @@ if( isset($_GET["id"]) ) {
 			</ul>
 		</div>
 <?php if (!isset($_GET["toolbar"]) || $_GET["toolbar"] != "hidden") { ?>
-		<div id="toolbar">
+		<div id="toolbar" style="display: none">
 			<ul>
 					<li><a id="home" href="http://tau-prolog.org" title="Tau Prolog"></a></li>
 					<li><a href="http://tau-prolog.org/sandbox" title="New sandbox" />New</a></li>
@@ -136,22 +137,22 @@ if( isset($_GET["id"]) ) {
 <?php } ?>
 		<div id="sections">
 			<ul>
-					<li><input type="button" id="program-tab" onClick="show_program_tab();" value="Program editor" class="selected-section" /></li>
-					<li><input type="button" id="derivation-tab" onClick="show_derivation_tab();" value="Derivation tree visualization" /></li>
-					<li><input type="button" id="transformations-tab" onClick="show_transformations_tab();" value="Transformations" /></li>
+					<li><input type="button" id="program-tab" onClick="show_program_tab();" value="Program Editor" class="selected-section" /></li>
+					<li><input type="button" id="derivation-tab" onClick="show_derivation_tab();" value="Visualisasi Tree" /></li>
+					<li style="display: none"><input type="button" id="transformations-tab" onClick="show_transformations_tab();" value="Transformations" /></li>
 			</ul>
 		</div>
 		<div id="content">
 			<div id="runable">
 				<div id="program-container">
 					<div>
-						<div class="header">Program</div>
-						<input type="button" id="reconsult" onClick="reconsult();" value="Consult program" />
+						<div class="header">Kode Program</div>
+						<input type="button" id="reconsult" onClick="reconsult();" value="Jalankan" />
 						<div id="program"><?php echo htmlspecialchars($program); ?></div>
 					</div>
 				</div>
 				<div id="canvas-container">
-						<div class="canvas-note">Only queries executed under this tab will be drawn.</div>
+						<div class="canvas-note">Hanya query yang dijalankan pada tab ini yang akan muncul</div>
 						<canvas id="tau-canvas"></canvas>
 				</div>
 				<div id="transformations-container">
@@ -159,7 +160,7 @@ if( isset($_GET["id"]) ) {
 				</div>
 				<div id="query-container">
 					<div>
-						<div class="header">Query
+						<div class="header" style="display: none">Query
 							<span id="limit-container" title="Maximum number of inferences">limit: <input id="limit" type="text" value="10000" /></span>
 							<span id="max_answers-container" title="Maximum number of answers">max-answers: <input id="max_answers" type="text" value="10" /></span>
 							<span style="margin-left: 20px;" id="quoted-container" title="Quoted"><input type="checkbox" id="quoted" name="quoted" checked="checked"> <label for="quoted">quoted</label></span>
@@ -169,10 +170,10 @@ if( isset($_GET["id"]) ) {
 						<div id="query"></div>
 						<div id="output"></div>
 						<div id="tree-options">
-							<span>Theme:</span>
+							<span>Pilih tema tree:</span>
 <ul>
 <?php
-foreach(scandir("../utils/draw-derivation-trees/themes/") as $f)
+foreach(scandir("code/draw-derivation-trees/themes/") as $f)
 	if($f != "." && $f != "..") {
 		$name = str_replace(".json", "", $f);
 		echo "<li><span onClick=\"set_theme('$name')\" class=\"theme\" id=\"theme-$name\" />$name</span></li>\n";

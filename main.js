@@ -24,7 +24,7 @@ window.addEventListener("load", function() {
 	query = CodeMirror(document.getElementById("query"), {
 		lineNumbers: false,
 		theme: "tauout",
-		placeholder: "Type a Prolog goal in here and press ENTER",
+		placeholder: "Masukkan eksekusi prolog disini dan tekan ENTER",
 		mode: "prolog"
 	});
 	code.setSize("100%", "100%");
@@ -221,12 +221,12 @@ function set_theme( theme ) {
 			try_tau_prolog( query, null, {keyCode: 13} );
 		}
 	};
-	xhttp.open("GET", "../utils/draw-derivation-trees/themes/" + theme + ".json", true);
+	xhttp.open("GET", "code/draw-derivation-trees/themes/" + theme + ".json", true);
 	xhttp.send();
 }
 
 function reconsult() {
-	document.getElementById("reconsult").value = "Reconsult program";
+	document.getElementById("reconsult").value = "Jalankan ulang";
 	var raw_program = code.getValue();
 	if( session == null ) {
 		session = pl.create(parseInt(document.getElementById("limit").value));
@@ -246,14 +246,14 @@ function reconsult() {
 	reset = 1;
 	new_block("consult");
 	if( c !== true && c.args )
-		try_answer( 'error parsing program: ' + c.args[0], true );
+		try_answer( 'Terdapat kesalahan menjalankan program: ' + c.args[0], true );
 	else if( c === false )
-		try_answer( 'parsing program: fail!', true );
+		try_answer( 'Menjalanakan program: Gagal!', true );
 	else
-		try_answer( 'parsing program: ok!', true );
+		try_answer( 'Menjalankan program: Berhasil!', true );
 	var warnings = session.get_warnings();
 	for( var i = warnings.length-1; i >= 0; i-- )
-		try_answer( 'warning parsing program: ' + warnings[i].toString( getWriteOptions() ), true );
+		try_answer( 'Ada peringatan saat menjalankan program: ' + warnings[i].toString( getWriteOptions() ), true );
 	update_transformation();
 }
 
