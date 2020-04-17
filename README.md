@@ -7,7 +7,7 @@
 - Irma Fatkhiatin (180535632584)
 
 ## Instalasi Program 
-### Pada Windows XAMPP
+### Pada Windows XAMPP php 7
 1. Download atau clone repository ini
 2. Jalankan service Apache dan MySQL pada XAMPP
 3. Buat database baru pada phpMyAdmin
