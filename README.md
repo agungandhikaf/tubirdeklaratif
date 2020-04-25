@@ -13,3 +13,6 @@
 3. Buat database baru pada phpMyAdmin
 4. Import file ***database.sql*** kedalam database yang baru dibuat menggunakan phpMyAdmin
 5. Sesuaikan isi file ***mysql.php*** dengan konfigurasi database pada XAMPP
+
+# Video Penjelasan Tugas Besar
+Link : https://intip.in/tubirdeklaratif
