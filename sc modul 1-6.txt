@@ -1,0 +1,112 @@
+======================================MODUL 1======================================
+% Silsilah Keluarga
+
+pria(budi).
+pria(joko).
+wanita(ani).
+orangtua(budi,joko).
+orangtua(ani,joko).
+ayah(X,Y):- pria(X), orangtua(X,Y).
+ibu(X,Y):- wanita(X), orangtua(X,Y).
+
+
+======================================MODUL 2======================================
+% Latihan 1
+findLast(X,[X]).
+findLast(X,[_|T]):- findLast(X,T).
+
+% Latihan 2
+find(X,X):- find(X,X).
+findFirst(X,[H|_]):- find(X,H).
+
+% Latihan 3
+findSecondLast(X,[X,_]).
+findSecondLast(X,[_|T]):- findSecondLast(X,T).
+
+% Latihan 4
+findAt(1,X,[X|_).
+findAt(E,X,[_|T):- K is E-1, findAt(K,X,T).
+
+
+======================================MODUL 3======================================
+% Latihan 1
+kali(X,1,X):- !.
+kali(X,Y,Z):- K is Y-1, kali(X,K,Z1), Z is X+Z1.
+
+% Latihan 2
+pangkat(X,1,X):- !.
+pangkat(X,Y,Z):- K is Y-1, pangkat(X,K,Z1), Z is X*Z1.
+
+% Latihan 3
+faktorial(1,1):- !.
+faktorial(X,Y):- K is X-1, faktorial(K,Y1), Y is Y1*X.
+
+
+======================================MODUL 4======================================
+% Latihan 1
+and(A,B):- A,B.
+
+% Latihan 2
+or(A,_):- A, !.
+or(_,B):- B, !.
+
+% Latihan 3
+xor(A,B):- A\=B.
+
+% Latihan 4
+equal(A,B):- A==B.
+
+
+======================================MODUL 5======================================
+% Latihan 1
+LinearList([],[]).
+LinearList(H,[H]):- not(is_list(H)).
+LinearList([H|T],Z):- linearList(H,X), linearList(T,Y), append(X,Y,Z).
+
+% Latihan 2
+pindah(X,[],[],[X]).
+pindah(X,[H|T],[H|T],[X]):- X\=H.
+pindah(X,[X|T],Y,[X|T1]):- pindah(X,T,Y,T1).
+subList([],[]).
+subList([H|T],[H1|T1]):- pindah(H,T,X,H1), subList(X,T1).
+
+% Latihan 3
+ubah([],[]).
+ubah([X|Xt]|Y],[[N,X]|Z]):- length([X|Xt],N), ubah(Y,Z).
+lengthSubList(X1,X2):- subList(X1,X), ubah(X,X2).
+
+% Latihan 4
+lengthToList([],[]).
+lengthToList([[1,X]|Xt],[X|T]):- lengthToList(Xt,T).
+lengthToList([[N,X]|Xt],[X|T]):- N>0, K is N-1, lengthToList([K,X]|Xt,T).
+
+
+======================================MODUL 6======================================
+% Latihan 1
+isTree(nil).
+isTree(t(_,nik,nil)):- !.
+isTree(t(_,L,nil)):- isTree(L).
+isTree(t(_,nil,R)):- isTree(R).
+isTree(t(_,L,R)):- isTree(L), isTree(R),!.
+
+% Latihan 2
+cBalTree(0,nil):- !.
+cBalTree(A,t(x,L,R)):- A>0, B is A-1, C is B//2, D is A-B, distrib(C,D,NL,NR), cBalTree(NL,L), cBalTree(NR,R).
+distrib(N,N,N,N):- !.
+distrib(A,B,A,B).
+distrib(A,B,B,A).
+
+% Latihan 3
+simetris(nil).
+simetris(t(_,L,R)):- mirror(L,R).
+mirror(nil,nil).
+mirror(t(_,L1,R1),t(_,L2,R2)):- mirror(L1,R2), mirror(R1,L2).
+
+% Latihan 4
+add(X,nil,t(X,nil,nil)).
+add(X,t(Ro,L,R),t(Ro,L1,R)):- X @< Ro, add(X,L,L1).
+add(X,t(Ro,L,R),t(Ro,L,R1)):- X @> Ro, add(X,R,R1).
+construct(L,T):- construct(L,T,nil).
+construct([],T,T).
+construct([N|Ns],T,T0):- add(N,T0,T1), construct(Ns,T,T1).
+tes_simetris(L):- construct(L,T), simetris(T).
